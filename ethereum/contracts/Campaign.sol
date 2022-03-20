@@ -64,11 +64,10 @@ contract Campaign {
             approvalCount: 0
             // we do not need to initialize reference types (approvals) - mappings
         });
-
         requests.push(newRequest);
 
     // Alternative definition of newRequest -it assumes that you will set them in the right order
-    // Request(description,value,recipient,false);
+    // Request(description,value,recipient,false,0);
     }
 
     function approveRequest(uint index) public {
@@ -88,6 +87,21 @@ contract Campaign {
 
         request.recipient.transfer(request.value); // recipient is address type so it has transfer method.
         request.complete = true;
+    }
+
+    function getAllContractInfromation() public view returns (
+        uint,uint,uint,uint,address
+    ){
+        return (
+            minimumContribution,
+            address(this).balance,
+            requests.length,
+            approversCount,
+            manager
+        );
+    }
+    function getRequestsCount() public view returns (uint) {
+        return requests.length;
     }
 
 }
